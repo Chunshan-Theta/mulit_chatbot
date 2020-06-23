@@ -32,7 +32,7 @@ def video() -> VideoSendMessage:
 
 def more_lackman_questions_photo() -> ImagemapSendMessage:
     return ImagemapSendMessage(
-        base_url='https://example.com/base',
+        base_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
         alt_text='this is an imagemap',
         base_size=BaseSize(height=1040, width=1040),
         actions=[
