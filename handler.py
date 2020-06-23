@@ -6,7 +6,7 @@ def line_reply_handler(message) -> SendMessage:
     if message == "來點圖片":
         return blackman_questions_photo()
     elif message == "多點圖片":
-        return blackman_questions_photo()
+        return more_lackman_questions_photo()
     else:
         return repeat(message)
 
@@ -30,14 +30,14 @@ def video() -> VideoSendMessage:
     )
 
 
-def more_lackman_questions_photo() -> ImageSendMessage:
+def more_lackman_questions_photo() -> ImagemapSendMessage:
     return ImagemapSendMessage(
         base_url='https://example.com/base',
         alt_text='this is an imagemap',
         base_size=BaseSize(height=1040, width=1040),
         actions=[
             URIImagemapAction(
-                link_uri='https://example.com/',
+                link_uri='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
                 area=ImagemapArea(
                     x=0, y=0, width=520, height=1040
                 )
