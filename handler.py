@@ -1,6 +1,6 @@
 from linebot.models import TextSendMessage, SendMessage, ImageSendMessage, VideoSendMessage, ImagemapSendMessage, \
     BaseSize, URIImagemapAction, MessageImagemapAction, ImagemapArea, TemplateSendMessage, ImageCarouselTemplate, \
-    ImageCarouselColumn,PostbackTemplateAction
+    ImageCarouselColumn, PostbackTemplateAction, ButtonsTemplate,MessageTemplateAction,URITemplateAction
 
 blackman_pic_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s'
 def line_reply_handler(message) -> SendMessage:
@@ -8,6 +8,8 @@ def line_reply_handler(message) -> SendMessage:
         return blackman_questions_photo()
     elif message == "多點圖片":
         return more_blackman_questions_photo()
+    elif message == "選":
+        return list_question()
     else:
         return repeat(message)
 
@@ -31,30 +33,6 @@ def video() -> VideoSendMessage:
     )
 
 
-def more_blackman_questions_photo() -> TemplateSendMessage:
-    return TemplateSendMessage(
-    alt_text='blackman_pic_url',
-    template=ImageCarouselTemplate(
-        columns=[
-            ImageCarouselColumn(
-                image_url=blackman_pic_url,
-                action=PostbackTemplateAction(
-                    label='postback1',
-                    text='postback text1',
-                    data='action=buy&itemid=1'
-                )
-            ),
-            ImageCarouselColumn(
-                image_url=blackman_pic_url,
-                action=PostbackTemplateAction(
-                    label='postback2',
-                    text='postback text2',
-                    data='action=buy&itemid=2'
-                )
-            )
-        ]
-    )
-)
 
 def map_image() -> ImagemapSendMessage:
     main_photo = blackman_pic_url
@@ -90,3 +68,53 @@ def map_image() -> ImagemapSendMessage:
             )
         ]
     )
+
+def list_question():
+    return TemplateSendMessage(
+    alt_text='Buttons template',
+    template=ButtonsTemplate(
+        thumbnail_image_url=blackman_pic_url,
+        title='Menu',
+        text='Please select',
+        actions=[
+            PostbackTemplateAction(
+                label='postback',
+                text='clieked',
+                data='action=buy&itemid=1'
+            ),
+            MessageTemplateAction(
+                label='output something',
+                text='message text'
+            ),
+            URITemplateAction(
+                label='got to site',
+                uri=blackman_pic_url
+            )
+        ]
+    )
+)
+
+def more_blackman_questions_photo() -> TemplateSendMessage:
+    return TemplateSendMessage(
+    alt_text='blackman_pic_url',
+    template=ImageCarouselTemplate(
+        columns=[
+            ImageCarouselColumn(
+                image_url=blackman_pic_url,
+                action=PostbackTemplateAction(
+                    label='postback1',
+                    text='postback text1',
+                    data='action=buy&itemid=1'
+                )
+            ),
+            ImageCarouselColumn(
+                image_url=blackman_pic_url,
+                action=PostbackTemplateAction(
+                    label='postback2',
+                    text='postback text2',
+                    data='action=buy&itemid=2'
+                )
+            )
+        ]
+    )
+)

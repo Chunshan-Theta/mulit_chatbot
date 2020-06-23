@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="87d86cc0-c3af-41c7-83f9-3be361f244cc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="46" column="64" lean-forward="true" selection-start-line="46" selection-start-column="64" selection-end-line="46" selection-end-column="64" />
+            <state relative-caret-position="343">
+              <caret line="40" column="69" lean-forward="true" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -24,11 +24,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/handler.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="41" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="41" />
+            <state relative-caret-position="147">
+              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -71,6 +71,7 @@
     <findStrings>
       <find>handle_message</find>
       <find>source</find>
+      <find>ImageSendMessage</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,8 +81,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/requirements.txt" />
-        <option value="$PROJECT_DIR$/handler.py" />
         <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/handler.py" />
       </list>
     </option>
   </component>
@@ -228,13 +229,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/linebot/models/template.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="387">
-          <caret line="252" column="25" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/linebot/models/events.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
@@ -242,20 +236,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/handler.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="41" selection-start-line="15" selection-start-column="20" selection-end-line="15" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="46" column="64" lean-forward="true" selection-start-line="46" selection-start-column="64" selection-end-line="46" selection-end-column="64" />
+        <state relative-caret-position="343">
+          <caret line="40" column="69" lean-forward="true" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/linebot/models/template.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="252" column="25" selection-start-line="252" selection-start-column="6" selection-end-line="252" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="147">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
         </state>
       </provider>
     </entry>
