@@ -37,11 +37,14 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if hasattr(event, 'postback'):
-        print("postback")
+    app.logger.info("handle_message1")
+    print("handle_message2")
+    if event.type == "postback":
         app.logger.info("postback: " + str(event.postback))
         line_bot_api.push_message(event.source.user_id, TextSendMessage(text=f"我們已經收到您的要求: {event.postback}"))
-    if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
+    elif event.type == "message":
+        if event.source.user_id == "Udeadbeefdeadbeefdeadbeefdeadbeef":
+            return
         """
         respond_text = line_reply_handler(message=event.message.text)
         message = TextSendMessage(text=respond_text)
