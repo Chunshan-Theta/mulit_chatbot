@@ -49,7 +49,7 @@ def more_lackman_questions_photo() -> ImagemapSendMessage:
                 area=ImagemapArea(
                     x=520, y=0, width=520, height=520
                 )
-            )
+            ),
             URIImagemapAction(
                 link_uri='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
                 area=ImagemapArea(
