@@ -43,7 +43,8 @@ def handle_message(event):
         """
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.message.text}"))
         message = line_reply_handler(message=event.message.text)
-        line_bot_api.reply_message(event.reply_token, message)
+        #line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.push_message(event.source.user_id, message)
 
 
 if __name__ == "__main__":
