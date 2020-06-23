@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, abort
 
 from linebot import (
@@ -7,6 +8,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+
+from handler import line_reply_handler
 
 app = Flask(__name__)
 
@@ -34,10 +37,14 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
-        message = TextSendMessage(text=event.message.text)
+        """
+        respond_text = line_reply_handler(message=event.message.text)
+        message = TextSendMessage(text=respond_text)
+        """
+        message = line_reply_handler(message=event.message.text)
         line_bot_api.reply_message(event.reply_token, message)
 
-import os
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 80))
     app.run(host='0.0.0.0', port=port)
