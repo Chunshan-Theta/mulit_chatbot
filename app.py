@@ -34,24 +34,24 @@ def callback():
         abort(400)
     return 'OK'
 
-# 處理訊息
+# 處理message訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    app.logger.info("handle_message1")
-    print("handle_message2")
-    if event.type == "postback":
-        app.logger.info("postback: " + str(event.postback))
-        line_bot_api.push_message(event.source.user_id, TextSendMessage(text=f"我們已經收到您的要求: {event.postback}"))
-    elif event.type == "message":
-        if event.source.user_id == "Udeadbeefdeadbeefdeadbeefdeadbeef":
-            return
-        """
-        respond_text = line_reply_handler(message=event.message.text)
-        message = TextSendMessage(text=respond_text)
-        """
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.message.text}"))
-        message = line_reply_handler(message=event.message.text)
-        line_bot_api.push_message(event.source.user_id, message)
+    if event.source.user_id == "Udeadbeefdeadbeefdeadbeefdeadbeef":
+        return
+    """
+    respond_text = line_reply_handler(message=event.message.text)
+    message = TextSendMessage(text=respond_text)
+    """
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.message.text}"))
+    message = line_reply_handler(message=event.message.text)
+    line_bot_api.push_message(event.source.user_id, message)
+
+# 處理Postback訊息
+@handler.add(PostbackEvent)
+def handle_message(event):
+    app.logger.info("postback: " + str(event.postback))
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.postback}"))
 
 
 if __name__ == "__main__":
