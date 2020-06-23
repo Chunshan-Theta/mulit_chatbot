@@ -31,21 +31,35 @@ def video() -> VideoSendMessage:
 
 
 def more_lackman_questions_photo() -> ImagemapSendMessage:
+    connect_2_website = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s'
+    preview_text = 'this is an imagemap'
     return ImagemapSendMessage(
-        base_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
-        alt_text='this is an imagemap',
+        base_url=connect_2_website,
+        alt_text=preview_text,
         base_size=BaseSize(height=1040, width=1040),
         actions=[
             URIImagemapAction(
                 link_uri='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
                 area=ImagemapArea(
-                    x=0, y=0, width=520, height=1040
+                    x=0, y=0, width=520, height=520
                 )
             ),
             MessageImagemapAction(
                 text='hello',
                 area=ImagemapArea(
-                    x=520, y=0, width=520, height=1040
+                    x=520, y=0, width=520, height=520
+                )
+            )
+            URIImagemapAction(
+                link_uri='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
+                area=ImagemapArea(
+                    x=0, y=520, width=520, height=520
+                )
+            ),
+            URIImagemapAction(
+                link_uri='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s',
+                area=ImagemapArea(
+                    x=520, y=520, width=520, height=520
                 )
             )
         ]
