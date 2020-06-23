@@ -8,11 +8,12 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+import logging
 
 from handler import line_reply_handler
 
 app = Flask(__name__)
-
+app.logger.setLevel(logging.DEBUG)
 # Channel Access Token
 line_bot_api = LineBotApi("T7WVBSLT4LoxIAvPQV4fQA2cJBq9OxjgLmPiOquiw6e3m8zMKHq83nuXcQ0OXaj5Z/oqni0NgPvX7r9M2MK3rhxi8ZjzTnerMywBxU7/So6AUq3YlJxQmjJd6hWBQ92avWSBLgukv3h9zxziV5wtwwdB04t89/1O/w1cDnyilFU=")
 # Channel Secret
