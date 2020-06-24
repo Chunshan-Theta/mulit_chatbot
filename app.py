@@ -10,14 +10,17 @@ from linebot.exceptions import (
 from linebot.models import *
 import logging
 
+from config import Channel_Access_Token, Channel_Secret
 from handler import line_reply_handler
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
 # Channel Access Token
-line_bot_api = LineBotApi("T7WVBSLT4LoxIAvPQV4fQA2cJBq9OxjgLmPiOquiw6e3m8zMKHq83nuXcQ0OXaj5Z/oqni0NgPvX7r9M2MK3rhxi8ZjzTnerMywBxU7/So6AUq3YlJxQmjJd6hWBQ92avWSBLgukv3h9zxziV5wtwwdB04t89/1O/w1cDnyilFU=")
+line_bot_api = LineBotApi(Channel_Access_Token)
 # Channel Secret
-handler = WebhookHandler("94e92187579a5377d59c0b936c54625f")
+handler = WebhookHandler(Channel_Secret)
+
+Line_test_bot_user_id = "Udeadbeefdeadbeefdeadbeefdeadbeef"
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -37,12 +40,8 @@ def callback():
 # 處理message訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.source.user_id == "Udeadbeefdeadbeefdeadbeefdeadbeef":
+    if event.source.user_id == Line_test_bot_user_id:
         return
-    """
-    respond_text = line_reply_handler(message=event.message.text)
-    message = TextSendMessage(text=respond_text)
-    """
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.message.text}"))
     message = line_reply_handler(message=event.message.text)
     line_bot_api.push_message(event.source.user_id, message)

@@ -1,0 +1,4 @@
+# Channel Access Token
+Channel_Access_Token = "T7WVBSLT4LoxIAvPQV4fQA2cJBq9OxjgLmPiOquiw6e3m8zMKHq83nuXcQ0OXaj5Z/oqni0NgPvX7r9M2MK3rhxi8ZjzTnerMywBxU7/So6AUq3YlJxQmjJd6hWBQ92avWSBLgukv3h9zxziV5wtwwdB04t89/1O/w1cDnyilFU="
+# Channel Secret
+Channel_Secret="94e92187579a5377d59c0b936c54625f"
