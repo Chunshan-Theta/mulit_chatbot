@@ -15,6 +15,8 @@ from handler import line_reply_handler
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
+
+## LINE
 # Channel Access Token
 line_bot_api = LineBotApi(Channel_Access_Token)
 # Channel Secret
@@ -51,6 +53,44 @@ def handle_message(event):
 def handle_message(event):
     app.logger.info("postback: " + str(event.postback))
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {event.postback}"))
+
+
+## MESSENGER
+from pymessenger import Bot
+PAGE_ACCESS_TOKEN = "！！！！你的粉絲專頁存取權杖！！！！！！"
+bot = Bot(PAGE_ACCESS_TOKEN)
+
+# 監聽所有來自 /callback 的 Post Request
+@app.route("/callback/messenger", methods=['GET'])
+def verify():
+ # Webhook verification
+    if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
+        if not request.args.get("hub.verify_token") == "！驗證權杖！":
+            return "Verification token mismatch", 403
+        return request.args["hub.challenge"], 200
+    return "Hello world", 200
+
+@app.route("/callback/messenger", methods=['POST'])
+def webhook():
+    data = request.get_json()
+    app.logger.info("postback: " + str(data))
+    if data['object'] == 'page':
+        for entry in data['entry']:
+            for messaging_event in entry['messaging']:
+                # IDs
+                sender_id = messaging_event['sender']['id']
+                recipient_id = messaging_event['recipient']['id']
+                if messaging_event.get('message'):
+                    # Extracting text message
+                    if 'text' in messaging_event['message']:
+                        messaging_text = messaging_event['message']['text']
+                    else:
+                        messaging_text = 'no text'
+                    # Echo
+                    response = messaging_text
+                    bot.send_text_message(sender_id, messaging_text)
+    return "ok", 200
+
 
 
 if __name__ == "__main__":
