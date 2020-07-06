@@ -57,7 +57,8 @@ def handle_message(event):
 
 ## MESSENGER
 from pymessenger import Bot
-PAGE_ACCESS_TOKEN = "！！！！你的粉絲專頁存取權杖！！！！！！"
+PAGE_ACCESS_TOKEN="EAAIXsvACy2QBAOZBOdvLVGTOQ2NNZBYNCe94g4qWylFYguZCu9H6oov2xXKpDkMhZBgRZC94kVnY8AhXCaZCXGdJ95ezWvvo9BtQcL7SHSDrZCJB60HBZAa2VZAFqXVPnA8gVrZAPKDdsMQirqAB2u13EZCkyqDJbZBHHDrHODVHl0oWPaZBBE1h7Jl5O"
+MESSENGER_AUTH_TOKEN = "messenger_auth_token"
 bot = Bot(PAGE_ACCESS_TOKEN)
 
 # 監聽所有來自 /callback 的 Post Request
@@ -65,7 +66,7 @@ bot = Bot(PAGE_ACCESS_TOKEN)
 def verify():
  # Webhook verification
     if request.args.get("hub.mode") == "subscribe" and request.args.get("hub.challenge"):
-        if not request.args.get("hub.verify_token") == "！驗證權杖！":
+        if not request.args.get("hub.verify_token") == MESSENGER_AUTH_TOKEN:
             return "Verification token mismatch", 403
         return request.args["hub.challenge"], 200
     return "Hello world", 200
