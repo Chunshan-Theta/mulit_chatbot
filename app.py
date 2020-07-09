@@ -74,13 +74,15 @@ def verify():
 @app.route("/callback/messenger", methods=['POST'])
 def webhook():
     data = request.get_json()
-    app.logger.info("postback: " + str(data))
     if data['object'] == 'page':
         for entry in data['entry']:
             for messaging_event in entry['messaging']:
                 # IDs
                 sender_id = messaging_event['sender']['id']
                 recipient_id = messaging_event['recipient']['id']
+                print(f"sender_id: {sender_id}")
+
+
                 if messaging_event.get('message'):
                     # Extracting text message
                     if 'text' in messaging_event['message']:
