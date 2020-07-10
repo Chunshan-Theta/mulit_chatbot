@@ -91,6 +91,7 @@ def webhook():
                         messaging_text = 'no text'
                     # Echo
                     response = messaging_text
+                    bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
                     bot.send_text_message(sender_id, messaging_text)
     return "ok", 200
 
