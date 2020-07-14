@@ -10,8 +10,11 @@ from linebot.exceptions import (
 from linebot.models import *
 import logging
 
+import handler_fb
 from config import Channel_Access_Token, Channel_Secret
-from handler import line_reply_handler
+from handler_line import line_reply_handler
+
+from fb_message_bot.fb_helper import FbHelperBot
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
@@ -59,7 +62,7 @@ def handle_message(event):
 from pymessenger import Bot
 PAGE_ACCESS_TOKEN="EAAIXsvACy2QBAOZBOdvLVGTOQ2NNZBYNCe94g4qWylFYguZCu9H6oov2xXKpDkMhZBgRZC94kVnY8AhXCaZCXGdJ95ezWvvo9BtQcL7SHSDrZCJB60HBZAa2VZAFqXVPnA8gVrZAPKDdsMQirqAB2u13EZCkyqDJbZBHHDrHODVHl0oWPaZBBE1h7Jl5O"
 MESSENGER_AUTH_TOKEN = "messenger_auth_token"
-bot = Bot(PAGE_ACCESS_TOKEN)
+bot = FbHelperBot(PAGE_ACCESS_TOKEN)
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback/messenger", methods=['GET'])
@@ -90,9 +93,12 @@ def webhook():
                     else:
                         messaging_text = 'no text'
                     # Echo
-                    response = messaging_text
-                    bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
-                    bot.send_text_message(sender_id, messaging_text)
+                    if messaging_text.index("搜尋") != -1:
+                        handler_fb.handler_pic_search(bot=bot,recipient_id=sender_id,text=messaging_text)
+                    else:
+                        response = messaging_text
+                        bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
+                        bot.send_text_message(sender_id, messaging_text)
     return "ok", 200
 
 

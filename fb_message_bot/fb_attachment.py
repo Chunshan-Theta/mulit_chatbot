@@ -1,4 +1,4 @@
-from fb_bot.fb_button import FbButtom,Demo_btn_set
+from fb_message_bot.fb_button import FbButtom,Demo_btn_set
 
 
 class AttachmentButton(dict):

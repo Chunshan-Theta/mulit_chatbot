@@ -2,8 +2,8 @@ from typing import Optional
 import requests
 from pymessenger import Bot
 
-from fb_bot.fb_attachment import AttachmentGeneric
-from fb_bot.fb_quickreply import FbQuickReply
+from fb_message_bot.fb_attachment import AttachmentGeneric
+from fb_message_bot.fb_quickreply import FbQuickReply
 
 
 class FbHelperBot(Bot):
