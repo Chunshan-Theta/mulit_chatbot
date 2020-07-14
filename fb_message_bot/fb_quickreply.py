@@ -1,12 +1,19 @@
 
 class FbQuickReplyElement(dict):
-    def __init__(self, title: str,payload:str,image_url:str):
-        self.update({
-            "content_type": "text",
-            "title": title,
-            "payload": payload,
-            "image_url": image_url
-        })
+    def __init__(self, title: str,payload:str,image_url=None):
+        if image_url is not None:
+            self.update({
+                "content_type": "text",
+                "title": title,
+                "payload": payload,
+                "image_url": image_url
+            })
+        else:
+            self.update({
+                "content_type": "text",
+                "title": title,
+                "payload": payload,
+            })
 class FbQuickReply(dict):
     def __init__(self,text:str,elements:[FbQuickReplyElement]):
         super().__init__()

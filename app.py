@@ -92,9 +92,13 @@ def webhook():
                         messaging_text = messaging_event['message']['text']
                     else:
                         messaging_text = 'no text'
+
+
                     # Echo
-                    if messaging_text.find("搜尋") != -1:
-                        handler_fb.handler_pic_search(bot=bot,recipient_id=sender_id,text=messaging_text)
+                    if messaging_text.find("圖") != -1:
+                        handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
+                    elif messaging_text.find("搜尋") != -1:
+                        handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
                     else:
                         response = messaging_text
                         bot.send_text_message(sender_id, f" your sender_id: {sender_id}")

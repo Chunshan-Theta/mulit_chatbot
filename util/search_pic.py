@@ -29,3 +29,5 @@ def get_a_pic(query="台北",only_pic_url=False):
         return random.choice(x)
     else:
         return random.choice(a)
+
+#print(get_pics())
