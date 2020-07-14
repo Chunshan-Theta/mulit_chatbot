@@ -1,7 +1,19 @@
 import requests
 import random
 
+class pic_set_obj:
+    def __init__(self,query):
+        self.pics=[]
+        self.pics.extend(get_pics(query=query))
 
+    def get_a_pic(self,only_pic_url=False):
+        if only_pic_url:
+            return random.choice(self.pics)["media"]
+        else:
+            return random.choice(self.pics)
+    def get_pics(self,count):
+        assert count <=50, "Too many"
+        return random.choices(population=self.pics,k=count)
 def get_pics(query = "台北",count=50):
     r = requests.get("https://api.qwant.com/api/search/images",
         params={
