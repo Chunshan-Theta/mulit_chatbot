@@ -12,7 +12,7 @@ def handler_pic_search(bot,recipient_id,text):
 def handler_pic_set_search(bot,recipient_id,text):
     query = text[text.index(":"):]
     pics = get_pics(query=query, count=5)
-
+    print(f"pics: {pics}")
     pic_sets = list()
     for p in pics:
         normal_btn_set = list()
@@ -22,6 +22,7 @@ def handler_pic_set_search(bot,recipient_id,text):
                                                     default_url=p['media'], buttons=normal_btn_set)
         pic_sets.append(Element)
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
-    bot.send_templete_message(recipient_id=recipient_id,message_obj=pic_sets_AttachmentGeneric)
+    print(f"pic_sets_AttachmentGeneric: {pic_sets_AttachmentGeneric}")
+    bot.send_templete_message(recipient_id=recipient_id, message_obj=pic_sets_AttachmentGeneric)
 
 
