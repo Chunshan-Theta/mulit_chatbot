@@ -10,8 +10,8 @@ def handler_pic_search(bot,recipient_id,text):
     while url.find("https") == -1:
         url = pics.get_a_pic(only_pic_url=True)
 
-    code, body = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=[url])
-    print(f"respond:add_whitelist_website: {code},{body}")
+    respond = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=[url])
+    print(f"respond:add_whitelist_website: {respond}")
     bot.send_image_url(recipient_id=recipient_id, image_url=url)
 
 def handler_pic_set_search(bot,recipient_id,text):
@@ -41,8 +41,8 @@ def handler_pic_set_search(bot,recipient_id,text):
 
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
 
-    code,body = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=whitelisted_domains)
-    print(f"respond:add_whitelist_website: {code},{body}")
+    respond = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=whitelisted_domains)
+    print(f"respond:add_whitelist_website: {respond}")
 
     print(f"pic_sets_AttachmentGeneric: {pic_sets_AttachmentGeneric}")
     respond = bot.send_templete_message(recipient_id=recipient_id, message_obj=pic_sets_AttachmentGeneric)
