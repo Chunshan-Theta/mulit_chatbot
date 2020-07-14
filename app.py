@@ -10,9 +10,9 @@ from linebot.exceptions import (
 from linebot.models import *
 import logging
 
-import handler_fb
+from handler import handler_fb
 from config import Channel_Access_Token, Channel_Secret
-from handler_line import line_reply_handler
+from handler.handler_line import line_reply_handler
 
 from fb_message_bot.fb_helper import FbHelperBot
 
@@ -59,7 +59,6 @@ def handle_message(event):
 
 
 ## MESSENGER
-from pymessenger import Bot
 PAGE_ACCESS_TOKEN="EAAIXsvACy2QBAOZBOdvLVGTOQ2NNZBYNCe94g4qWylFYguZCu9H6oov2xXKpDkMhZBgRZC94kVnY8AhXCaZCXGdJ95ezWvvo9BtQcL7SHSDrZCJB60HBZAa2VZAFqXVPnA8gVrZAPKDdsMQirqAB2u13EZCkyqDJbZBHHDrHODVHl0oWPaZBBE1h7Jl5O"
 MESSENGER_AUTH_TOKEN = "messenger_auth_token"
 bot = FbHelperBot(PAGE_ACCESS_TOKEN)
@@ -93,16 +92,18 @@ def webhook():
                     else:
                         messaging_text = 'no text'
 
-
-                    # Echo
-                    if messaging_text.find("圖") != -1:
-                        handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
-                    elif messaging_text.find("搜尋") != -1:
-                        handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
-                    else:
-                        response = messaging_text
-                        bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
-                        bot.send_text_message(sender_id, messaging_text)
+                    try:
+                        # Echo
+                        if messaging_text.find("圖") != -1:
+                            handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
+                        elif messaging_text.find("搜尋") != -1:
+                            handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
+                        else:
+                            response = messaging_text
+                            bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
+                            bot.send_text_message(sender_id, messaging_text)
+                    except Exception as e:
+                        print(f"Exception: {e}, {e.with_traceback()}")
     return "ok", 200
 
 

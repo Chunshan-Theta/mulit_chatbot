@@ -28,7 +28,7 @@ class AttachmentGenericPayloadElements(dict):
             "default_action": {
                 "type": "web_url",
                 "url": default_url,
-                "messenger_extensions": True,
+                "messenger_extensions": "true",
                 "webview_height_ratio": "tall",
                 "fallback_url": default_url
             },

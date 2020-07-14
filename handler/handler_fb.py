@@ -4,17 +4,24 @@ from util.search_pic import get_pics,get_a_pic
 
 
 def handler_pic_search(bot,recipient_id,text):
-    query = text[text.index(":"):]
+    query = text[text.index(":")+1:]
     url = get_a_pic(query=query,only_pic_url=True)
     bot.send_image_url(recipient_id=recipient_id, image_url=url)
 
-
 def handler_pic_set_search(bot,recipient_id,text):
-    query = text[text.index(":"):]
-    pics = get_pics(query=query, count=5)
+    query = text[text.index(":")+1:]
+    print(f"query: {query}")
+    pics = get_pics(query=query, count=1)
     print(f"pics: {pics}")
     pic_sets = list()
+    whitelisted_domains = list()
+
     for p in pics:
+        #
+        whitelisted_domains.append(p['url'])
+        whitelisted_domains.append(p['media'])
+
+        #
         normal_btn_set = list()
         normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
 
@@ -22,6 +29,9 @@ def handler_pic_set_search(bot,recipient_id,text):
                                                     default_url=p['media'], buttons=normal_btn_set)
         pic_sets.append(Element)
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
+
+    bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=whitelisted_domains)
+
     print(f"pic_sets_AttachmentGeneric: {pic_sets_AttachmentGeneric}")
     bot.send_templete_message(recipient_id=recipient_id, message_obj=pic_sets_AttachmentGeneric)
 
