@@ -9,6 +9,9 @@ def handler_pic_search(bot,recipient_id,text):
     url = pics.get_a_pic(only_pic_url=True)
     while url.find("https") == -1:
         url = pics.get_a_pic(only_pic_url=True)
+
+    code, body = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=[url])
+    print(f"respond:add_whitelist_website: {code},{body}")
     bot.send_image_url(recipient_id=recipient_id, image_url=url)
 
 def handler_pic_set_search(bot,recipient_id,text):
@@ -33,13 +36,16 @@ def handler_pic_set_search(bot,recipient_id,text):
         normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
 
         Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
-                                                    default_url=p['media'], buttons=normal_btn_set)
+                                                    default_url=p['url'], buttons=normal_btn_set)
         pic_sets.append(Element)
+
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
 
-    bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=whitelisted_domains)
+    code,body = bot.add_whitelist_website(access_token=bot.access_token, whitelisted_domains=whitelisted_domains)
+    print(f"respond:add_whitelist_website: {code},{body}")
 
     print(f"pic_sets_AttachmentGeneric: {pic_sets_AttachmentGeneric}")
-    bot.send_templete_message(recipient_id=recipient_id, message_obj=pic_sets_AttachmentGeneric)
+    respond = bot.send_templete_message(recipient_id=recipient_id, message_obj=pic_sets_AttachmentGeneric)
+    print(f"respond:bot.send_templete_message: {respond}")
 
 
