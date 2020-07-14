@@ -6,9 +6,9 @@ from util.search_pic import get_pics, get_a_pic, pic_set_obj
 def handler_pic_search(bot,recipient_id,text):
     query = text[text.index(":")+1:]
     pics = pic_set_obj(query=query)
-    url = pics.get_a_pic()
+    url = pics.get_a_pic(only_pic_url=True)
     while url.find("https") == -1:
-        url = pics.get_a_pic()
+        url = pics.get_a_pic(only_pic_url=True)
     bot.send_image_url(recipient_id=recipient_id, image_url=url)
 
 def handler_pic_set_search(bot,recipient_id,text):
