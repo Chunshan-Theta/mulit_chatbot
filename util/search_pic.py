@@ -35,7 +35,7 @@ def get_pics(query = "台北",count=50):
     return response
 
 
-def get_a_pic(query="台北",only_pic_url=False):
+def get_a_pic(query="台北", only_pic_url=False):
 
     a = get_pics(query=query)
     if only_pic_url:

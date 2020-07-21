@@ -33,10 +33,18 @@ class MyTestCase(unittest.TestCase):
         respond = bot.add_whitelist_website(access_token=PAGE_ACCESS_TOKEN,whitelisted_domains=bot.default_domains_whitelist)
         print(respond)
 
-    def test_image_message(self):
+    def test_image_url_message(self):
         PAGE_ACCESS_TOKEN = "EAAIXsvACy2QBAOZBOdvLVGTOQ2NNZBYNCe94g4qWylFYguZCu9H6oov2xXKpDkMhZBgRZC94kVnY8AhXCaZCXGdJ95ezWvvo9BtQcL7SHSDrZCJB60HBZAa2VZAFqXVPnA8gVrZAPKDdsMQirqAB2u13EZCkyqDJbZBHHDrHODVHl0oWPaZBBE1h7Jl5O"
         bot = FbHelperBot(PAGE_ACCESS_TOKEN)
         respond = bot.send_image_url()
+        print(respond)
+
+
+    def test_image_message(self):
+        PAGE_ACCESS_TOKEN = "EAAIXsvACy2QBAOZBOdvLVGTOQ2NNZBYNCe94g4qWylFYguZCu9H6oov2xXKpDkMhZBgRZC94kVnY8AhXCaZCXGdJ95ezWvvo9BtQcL7SHSDrZCJB60HBZAa2VZAFqXVPnA8gVrZAPKDdsMQirqAB2u13EZCkyqDJbZBHHDrHODVHl0oWPaZBBE1h7Jl5O"
+        sender_id = "3069312713160337"
+        bot = FbHelperBot(PAGE_ACCESS_TOKEN)
+        respond = bot.send_image(recipient_id=sender_id,image_path="/Users/gavinwang/simple-server-echo/fb_message_bot/test/test.png")
         print(respond)
 
 

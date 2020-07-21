@@ -1,6 +1,10 @@
+import json
+import os
+from io import BytesIO
 from typing import Optional
 import requests
 from pymessenger import Bot
+from requests_toolbelt import MultipartEncoder
 
 from fb_message_bot.fb_attachment import AttachmentGeneric
 from fb_message_bot.fb_quickreply import FbQuickReply
@@ -46,3 +50,51 @@ class FbHelperBot(Bot):
             'message': message_obj
         }
         return self.send_raw(payload)
+
+    def send_image(self, recipient_id, image_path,image_type='png'):
+        """Send an image to the specified recipient.
+        Image must be PNG or JPEG or GIF (more might be supported).
+        https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment
+        Input:
+            recipient_id: recipient id to send to
+            image_path: path to image to be sent
+        Output:
+            Response from API as <dict>
+        """
+        from subprocess import PIPE, run
+
+        def out(command):
+            result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True, shell=True)
+            return result.stdout
+
+
+        image_type = 'jpg' if str(image_path).endswith('jpg') else image_type
+        cmd = "curl  \
+        -F 'recipient={\"id\":\""+recipient_id+"\"}' \
+        -F 'message={\"attachment\":{\"type\":\"image\", \"payload\":{\"is_reusable\":true}}}' \
+        -F 'filedata=@"+image_path+";type=image/"+image_type+"' \
+        'https://graph.facebook.com/v7.0/me/messages?access_token="+self.access_token+"'"
+        re = out(cmd)
+        return json.loads(re)
+        '''
+        url = f"https://graph.facebook.com/v7.0/me/messages?access_token={self.access_token}"
+        recipient = {"id":recipient_id}
+        message = {
+            "attachment":{
+                "type":"image",
+                "payload":
+                    {
+                        "is_reusable":"true"
+                    }
+            }
+        }
+        with open(image_path,"rb") as f:
+            files = {
+                "filedata": f
+            }
+            print(f"files: {files}")
+            responds = requests.post(url, files=files, data={"recipient":json.dumps(recipient),"message": json.dumps(message)})
+            return responds.json()
+        '''
+
+
