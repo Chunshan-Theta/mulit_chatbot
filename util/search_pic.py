@@ -58,13 +58,22 @@ def get_pics(query = "台北",count=50) -> [dict]:
             p = p["node"]
             url = "https://www.instagram.com/p/"+p["shortcode"]+"/"
             title = p["accessibility_caption"] if 'accessibility_caption' in p and p["accessibility_caption"] is not None else p["edge_media_to_caption"]["edges"][0]["node"]["text"]
+            likes_count = p["edge_media_preview_like"]["count"]
             p.update({
                 "title": title,
                 "media": p["display_url"],
                 "url": url,
+                "likes_count": int(likes_count)
             })
             respond_sets.append(pic(**p))
-        return respond_sets
+
+        respond_sets.sort(key=lambda elem: elem["likes_count"],reverse=True)
+        return_pics_better = respond_sets[:int(count*0.5)] if int(count*0.5) < len(respond_sets) else respond_sets
+        return_pics_discrover = respond_sets[int(count*0.5)+1:]
+        random.shuffle(return_pics_discrover)
+        return_pics_discrover = return_pics_discrover[:int(count*0.5)] if int(count*0.5) < len(return_pics_discrover) else return_pics_discrover
+        return_pics = return_pics_better+return_pics_discrover
+        return return_pics
     return by_ig()
 
 
