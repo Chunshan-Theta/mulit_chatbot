@@ -15,6 +15,7 @@ from config import Channel_Access_Token, Channel_Secret
 from handler.handler_line import line_reply_handler
 
 from fb_message_bot.fb_helper import FbHelperBot
+from handler.handler_user import handler_user_like
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
@@ -106,6 +107,8 @@ def webhook():
                             handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
                         elif messaging_text.find("搜尋") != -1:
                             handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
+                        elif messaging_text.find("LIKES_PIC") != -1:
+                            handler_user_like(bot=bot, recipient_id=sender_id, text=messaging_text)
                         else:
                             response = messaging_text
                             bot.send_text_message(sender_id, f" your sender_id: {sender_id}")

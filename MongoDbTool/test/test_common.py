@@ -19,5 +19,11 @@ class MyTestCase(unittest.TestCase):
         db_client.select_list(name="MongoDbToolCommonUnittestMainList")
         db_client.query(label="unitest")
 
+    def test_something_enter_exit(self):
+        with MongoBasicClient(host="cluster0.enocw.mongodb.net",db_name="MongoDbToolCommonUnittest",db_list_name="MongoDbToolCommonUnittestMainList") as db_client:
+            db_client.select_list(name="MongoDbToolCommonUnittestMainList")
+            db_client.insert(val={"label": "unitest"})
+            db_client.query(search_filter={"label": "unitest"})
+
 if __name__ == '__main__':
     unittest.main()
