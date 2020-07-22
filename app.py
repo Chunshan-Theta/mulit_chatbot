@@ -76,7 +76,7 @@ def verify():
 @app.route("/callback/messenger", methods=['POST'])
 def webhook():
     data = request.get_json()
-    print(f"data: {data}")
+    #print(f"data: {data}")
     if data['object'] == 'page':
         for entry in data['entry']:
             for messaging_event in entry['messaging']:
@@ -85,14 +85,21 @@ def webhook():
                 recipient_id = messaging_event['recipient']['id']
                 print(f"sender_id: {sender_id}")
 
+                """
+                {'object': 'page', 'entry': [{'id': '108119087224240', 'time': 1595396379736, 'messaging': [{'sender': {'id': '3069312713160337'}, 'recipient': {'id': '108119087224240'}, 'timestamp': 1595396379488, 'message': {'mid': 'm_ycByns-pYXTDge2Ahgq_tK64dlW_iUMwPSiQKqTPDYSi_QK-x05ZRP4j6xZB-VuG_r9noSwhsm_X04mW6njKbQ', 'text': '搜尋:耶誕城'}}]}]}
+                2020-07-22T05:39:40.067261+00:00 app[web.1]: sender_id: 3069312713160337
+                
+                {'object': 'page', 'entry': [{'id': '108119087224240', 'time': 1595396420065, 'messaging': [{'sender': {'id': '3069312713160337'}, 'recipient': {'id': '108119087224240'}, 'timestamp': 1595396420017, 'postback': {'title': '搜尋:耶誕城', 'payload': '搜尋:耶誕城'}}]}]}
 
-                if messaging_event.get('message'):
-                    # Extracting text message
-                    if 'text' in messaging_event['message']:
-                        messaging_text = messaging_event['message']['text']
-                    else:
-                        messaging_text = 'no text'
-
+                """
+                messaging_text = None
+                if "message" in messaging_event:
+                    if "text" in messaging_event["message"]:
+                        messaging_text = messaging_event["message"]["text"]
+                if "postback" in messaging_event:
+                    if "payload" in messaging_event["postback"]:
+                        messaging_text = messaging_event["postback"]["payload"]
+                if messaging_text is not None:
                     try:
                         # Echo
                         if messaging_text.find("圖") != -1:

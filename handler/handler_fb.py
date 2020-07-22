@@ -42,7 +42,7 @@ def handler_pic_set_search(bot,recipient_id,text):
 
     # reload button
     reload_btn_set = list()
-    reload_btn_set.append(FbButtomPostBack(payload=f"搜尋:{query}", title=f"搜尋:{query}"))
+    reload_btn_set.append(FbButtomPostBack(payload=f"搜尋更多", title=f"搜尋:{query}"))
 
     Element = AttachmentGenericPayloadElements(title="沒有滿意的圖片？", subtitle=f"搜尋更多圖片:{query}", image_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg",
                                                default_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg", buttons=reload_btn_set)
