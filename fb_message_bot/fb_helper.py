@@ -16,6 +16,7 @@ class FbHelperBot(Bot):
         self.default_domains_whitelist = ["https://www.silkrode.com.tw/", "https://instagram.ftpe8-2.fna.fbcdn.net", "https://peterssendreceiveapp.ngrok.io"]
 
     def add_whitelist_website(self, whitelisted_domains:[str], access_token: Optional[str]):
+        whitelisted_domains = [link[:whitelisted_domains.find("/", 10)] for link in whitelisted_domains]
         url = "https://graph.facebook.com/v2.6/me/thread_settings?"
         response = requests.post(
             url,
