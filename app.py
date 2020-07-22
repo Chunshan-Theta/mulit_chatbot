@@ -110,8 +110,10 @@ def webhook():
                             response = messaging_text
                             bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
                             bot.send_text_message(sender_id, messaging_text)
+                    except ValueError as e:
+                        bot.send_text_message(sender_id, f"對不起,我不知道你想幹嘛ＱＡＱ")
                     except Exception as e:
-                        print(f"Exception: {e}, {e.with_traceback()}")
+                        print(f"Exception: {str(e)}")
     return "ok", 200
 
 
