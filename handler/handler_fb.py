@@ -1,3 +1,4 @@
+from MongoDbTool.common import MongoBasicClient
 from fb_message_bot.fb_attachment import AttachmentGeneric, AttachmentGenericPayloadElements
 from fb_message_bot.fb_button import FbButtomPostBack,FbButtomURL
 from util.search_pic import get_pics, get_a_pic, pic_set_obj
@@ -24,23 +25,28 @@ def handler_pic_set_search(bot,recipient_id,text):
     #
     pic_sets = list()
     whitelisted_domains = list()
-    for p in pics:
-        while p['url'].find("https") == -1 or p['media'].find("https") == -1:
-            p = pics_obj.get_a_pic()
+    with MongoBasicClient(host="cluster0.enocw.mongodb.net", db_name="fbbot_like_pic",
+                          db_list_name="pic") as db_client:
 
-        #
-        whitelisted_domains.append(p['url'])
-        whitelisted_domains.append(p['media'])
 
-        #
-        normal_btn_set = list()
-        payload = f"LIKES_PIC:{recipient_id}:{p}"
-        normal_btn_set.append(FbButtomPostBack(payload=payload, title="我喜歡這個"))
-        normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
+        for p in pics:
+            while p['url'].find("https") == -1 or p['media'].find("https") == -1:
+                p = pics_obj.get_a_pic()
 
-        Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
-                                                    default_url=p['url'], buttons=normal_btn_set)
-        pic_sets.append(Element)
+            #
+            whitelisted_domains.append(p['url'])
+            whitelisted_domains.append(p['media'])
+
+            #
+            normal_btn_set = list()
+            payload = f"LIKES_PIC:{recipient_id}:{p['shortcode']}"
+            normal_btn_set.append(FbButtomPostBack(payload=payload, title="我喜歡這個"))
+            normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
+
+            Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
+                                                        default_url=p['url'], buttons=normal_btn_set)
+            pic_sets.append(Element)
+            db_client.insert(val=Element)
 
     # reload button
     reload_btn_set = list()

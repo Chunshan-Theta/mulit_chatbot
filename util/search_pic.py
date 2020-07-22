@@ -60,6 +60,7 @@ def get_pics(query = "台北",count=50) -> [dict]:
             title = p["accessibility_caption"] if 'accessibility_caption' in p and p["accessibility_caption"] is not None else p["edge_media_to_caption"]["edges"][0]["node"]["text"]
             likes_count = p["edge_media_preview_like"]["count"]
             p.update({
+                "shortcode":["shortcode"],
                 "title": title,
                 "media": p["display_url"],
                 "url": url,
