@@ -51,7 +51,6 @@ def get_pics(query = "台北",count=50) -> [dict]:
 
     def by_ig():
         url = "https://www.instagram.com/graphql/query/?query_hash=174a5243287c5f3a7de741089750ab3b&variables={\"tag_name\":\""+query+"\",\"first\":50}"
-        print(url)
         r = requests.get(url)
         response = r.json()
         respond_sets = list()

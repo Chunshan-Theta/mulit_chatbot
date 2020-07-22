@@ -18,7 +18,7 @@ def handler_pic_set_search(bot,recipient_id,text):
     query = text[text.index(":")+1:]
     print(f"query: {query}")
     pics_obj = pic_set_obj(query=query)
-    pics = pics_obj.get_pics(count=5)
+    pics = pics_obj.get_pics(count=9)
 
     #
     pic_sets = list()
@@ -33,11 +33,21 @@ def handler_pic_set_search(bot,recipient_id,text):
 
         #
         normal_btn_set = list()
+        normal_btn_set.append(FbButtomPostBack(payload=p['title'], title="我喜歡這個"))
         normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
 
         Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
                                                     default_url=p['url'], buttons=normal_btn_set)
         pic_sets.append(Element)
+
+    # reload button
+    reload_btn_set = list()
+    reload_btn_set.append(FbButtomPostBack(payload="搜尋:{query}", title="搜尋:{query}"))
+
+    Element = AttachmentGenericPayloadElements(title="沒有滿意的圖片？", subtitle=f"搜尋更多圖片:{query}", image_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg",
+                                               default_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg", buttons=reload_btn_set)
+    pic_sets.append(Element)
+
 
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
 
