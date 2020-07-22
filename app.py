@@ -76,6 +76,7 @@ def verify():
 @app.route("/callback/messenger", methods=['POST'])
 def webhook():
     data = request.get_json()
+    print(f"data: {data}")
     if data['object'] == 'page':
         for entry in data['entry']:
             for messaging_event in entry['messaging']:
