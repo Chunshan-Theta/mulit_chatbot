@@ -1,3 +1,6 @@
+import json
+
+from bson import json_util
 from pymongo import MongoClient
 from pymongo.results import InsertOneResult, InsertManyResult
 import datetime
@@ -19,7 +22,21 @@ class MongoBasicClient:
             "updated": datetime.datetime.now().strftime(self._date_fmt)
         }
         val.update(default)
-        insert_result: InsertOneResult = self.SelectedList.insert_one(val)
+        insert_result: InsertOneResult = self.SelectedList.insert_one(document=val)
+        return insert_result
+
+    def insert_multi(self, vals: [dict]):
+        default = {
+            "created": datetime.datetime.now().strftime(self._date_fmt),
+            "updated": datetime.datetime.now().strftime(self._date_fmt)
+        }
+        new_vals = list()
+        for val in vals:
+            val.update(default)
+            new_vals.append(val)
+
+
+        insert_result: InsertManyResult = self.SelectedList.insert_many(documents=new_vals)
         return insert_result
 
     def query(self,projection: dict = None, **kwargs):

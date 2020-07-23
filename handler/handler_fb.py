@@ -28,7 +28,7 @@ def handler_pic_set_search(bot,recipient_id,text):
     with MongoBasicClient(host="cluster0.enocw.mongodb.net", db_name="fbbot_like_pic",
                           db_list_name="pic") as db_client:
 
-
+        db_client_insert_Elements = list()
         for p in pics:
             while p['url'].find("https") == -1 or p['media'].find("https") == -1:
                 p = pics_obj.get_a_pic()
@@ -50,7 +50,8 @@ def handler_pic_set_search(bot,recipient_id,text):
             db_client_insert_Element.update({
                 'shortcode': p['shortcode']
             })
-            db_client.insert(val=db_client_insert_Element)
+            db_client_insert_Elements.append(db_client_insert_Element)
+        db_client.insert_multi(vals=db_client_insert_Elements)
 
     # reload button
     reload_btn_set = list()
