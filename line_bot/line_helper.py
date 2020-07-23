@@ -33,7 +33,7 @@ class CardCarouselElement(dict):
         self.__setitem__("description", description)
         self.__setitem__("title", title)
         self.__setitem__("image_url", image_url)
-        self.__setitem__("imageBackgroundColor", "#FFFFFF")
+        self.__setitem__("image_background_color", "#FFFFFF")
         self.actions = list()
         self.default_action = None
 
