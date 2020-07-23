@@ -16,6 +16,7 @@ from handler.handler_line import line_reply_handler
 
 from fb_message_bot.fb_helper import FbHelperBot
 from handler.handler_user import handler_user_like
+from line_bot.line_helper import LineBot
 
 app = Flask(__name__)
 app.logger.setLevel(logging.DEBUG)
@@ -23,6 +24,7 @@ app.logger.setLevel(logging.DEBUG)
 ## LINE
 # Channel Access Token
 line_bot_api = LineBotApi(Channel_Access_Token)
+
 # Channel Secret
 handler = WebhookHandler(Channel_Secret)
 
@@ -49,8 +51,9 @@ def handle_message(event):
     if event.source.user_id == Line_test_bot_user_id:
         return
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"使用者{event.source.user_id}您好, 我們已經收到您的要求: {event.message.text}"))
-    message = line_reply_handler(message=event.message.text)
-    line_bot_api.push_message(event.source.user_id, message)
+    line_bot = LineBot(Channel_Access_Token)
+    line_reply_handler(bot=line_bot,recipient_id=event.source.user_id,message=event.message.text)
+    #line_bot_api.push_message(event.source.user_id, message)
 
 # 處理Postback訊息
 @handler.add(PostbackEvent)

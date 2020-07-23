@@ -1,19 +1,23 @@
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, SendMessage, ImageSendMessage, VideoSendMessage, ImagemapSendMessage, \
     BaseSize, URIImagemapAction, MessageImagemapAction, ImagemapArea, TemplateSendMessage, ImageCarouselTemplate, \
-    ImageCarouselColumn, PostbackTemplateAction, ButtonsTemplate,MessageTemplateAction,URITemplateAction
+    ImageCarouselColumn, PostbackTemplateAction, ButtonsTemplate, MessageTemplateAction, URITemplateAction, \
+    CarouselColumn, CarouselTemplate
+
+from line_bot.line_helper import LineBot
+from line_bot.line_templete import ImageCarouselElement_demo1, CardCarouselElement_domo1
 
 blackman_pic_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdNlz5PjZDea1C5tI8p_Tx_mEs84KgCKrM_rJJVXdV9ZooNvo_KA&s'
 
-def line_reply_handler(message) -> SendMessage:
+def line_reply_handler(bot:LineBot,recipient_id,message:str) -> SendMessage:
     if message == "來點圖片":
-        return send_a_picture()
+        bot.send_a_picture(recipient_id=recipient_id, original_content_url=blackman_pic_url,preview_image_url=blackman_pic_url)
     elif message == "多點圖片":
-        return more_blackman_questions_photo()
+        bot.send_carousel_picture(recipient_id=recipient_id,default_text="選一個黑人",images=[ImageCarouselElement_demo1]*3)
     elif message == "選":
-        return choice_with_a_pictures()
+        bot.send_carousel_card(recipient_id=recipient_id,default_text="跟一個黑人打招呼",cards=[CardCarouselElement_domo1]*3)
     else:
-        return repeat(message)
+        bot.send_text_message(recipient_id=recipient_id, message=message)
 
 
 # Text message
@@ -126,51 +130,3 @@ def more_blackman_questions_photo() -> TemplateSendMessage:
         ]
     )
 )
-
-
-class ImageCarouselElement(dict):
-    def __init__(self, url, label, user_send_text, postback):
-        super().__init__()
-        self.__setitem__("url", url)
-        self.__setitem__("label", label)
-        self.__setitem__("user_send_text", user_send_text)
-        self.__setitem__("postback", postback)
-
-
-class LineBot:
-    def __init__(self,Channel_Access_Token):
-        self.bot = LineBotApi(Channel_Access_Token)
-
-    def send_text_message(self,recipient_id:str, message: SendMessage):
-        self.bot.push_message(recipient_id, message)
-
-    # Picture message
-    def send_a_picture(self,recipient_id,original_content_url, preview_image_url):
-        message = ImageSendMessage(
-            original_content_url=original_content_url,
-            preview_image_url=preview_image_url
-        )
-        self.send_text_message(recipient_id=recipient_id,message=message)
-
-    def send_carousel_picture(self,recipient_id, default_text, images: [ImageCarouselElement]):
-        columns = list()
-
-        for img in images:
-            tmp_img = ImageCarouselColumn(
-                    image_url=img['url'],
-                    action=PostbackTemplateAction(
-                        label=img['label'],
-                        text=img['user_send_text'],
-                        data=img['postback']
-                    )
-            )
-            columns.append(tmp_img)
-
-
-        message = TemplateSendMessage(
-            alt_text=default_text,
-            template=ImageCarouselTemplate(
-                columns=columns
-            )
-        )
-        self.send_text_message(recipient_id=recipient_id, message=message)
