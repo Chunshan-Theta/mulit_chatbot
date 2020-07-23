@@ -59,7 +59,7 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_message(event):
     app.logger.info("postback: " + str(event.postback))
-    return_str = json.loads(event.postback)["data"]
+    return_str = json.loads(str(event.postback))["data"]
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=f"我們已經收到您的要求: {return_str}"))
 
 
