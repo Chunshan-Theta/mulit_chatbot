@@ -46,6 +46,9 @@ def handler_pic_set_search(bot,recipient_id,text):
             Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
                                                         default_url=p['url'], buttons=normal_btn_set)
             pic_sets.append(Element)
+            Element.update({
+                'shortcode': p['shortcode']
+            })
             db_client.insert(val=Element)
 
     # reload button

@@ -16,4 +16,4 @@ def handler_user_like(bot,recipient_id,text):
             "user_id": user_id,
             "shortcode": shortcode
         })
-    bot.send_text_message(recipient_id, f"已紀錄❤")
+    bot.send_text_message(recipient_id, f"已紀錄❤ {user_id} like {shortcode}")
