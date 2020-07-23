@@ -11,8 +11,9 @@ class pic(dict):
         assert self.__getitem__("media")
         assert self.__getitem__("url")
 
+
 class pic_set_obj:
-    def __init__(self,query):
+    def __init__(self, query):
         self.pics=[]
         self.pics.extend(get_pics(query=query))
 
@@ -26,7 +27,8 @@ class pic_set_obj:
         assert count <=50, "Too many"
         return random.choices(population=self.pics, k=count)
 
-def get_pics(query = "台北",count=50) -> [dict]:
+
+def get_pics(query="台北", count=50) -> [dict]:
     def by_qwant():
         r = requests.get("https://api.qwant.com/api/search/images",
             params={
@@ -60,7 +62,7 @@ def get_pics(query = "台北",count=50) -> [dict]:
             title = p["accessibility_caption"] if 'accessibility_caption' in p and p["accessibility_caption"] is not None else p["edge_media_to_caption"]["edges"][0]["node"]["text"]
             likes_count = p["edge_media_preview_like"]["count"]
             p.update({
-                "shortcode":["shortcode"],
+                "shortcode":p["shortcode"],
                 "title": title,
                 "media": p["display_url"],
                 "url": url,
