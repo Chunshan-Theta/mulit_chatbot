@@ -39,7 +39,7 @@ def handler_pic_set_search(bot,recipient_id,text):
 
             #
             normal_btn_set = list()
-            payload = f"LIKES_PIC:{recipient_id}:{p['shortcode']}"
+            payload = f"LIKES_PIC:{recipient_id}:{p['shortcode'][0]}"
             normal_btn_set.append(FbButtomPostBack(payload=payload, title="我喜歡這個"))
             normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
 
@@ -48,7 +48,7 @@ def handler_pic_set_search(bot,recipient_id,text):
             pic_sets.append(Element)
             db_client_insert_Element = Element.copy()
             db_client_insert_Element.update({
-                'shortcode': p['shortcode']
+                'shortcode': p['shortcode'][0]
             })
             db_client.insert(val=db_client_insert_Element)
 
