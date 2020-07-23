@@ -46,10 +46,11 @@ def handler_pic_set_search(bot,recipient_id,text):
             Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
                                                         default_url=p['url'], buttons=normal_btn_set)
             pic_sets.append(Element)
-            Element.update({
+            db_client_insert_Element = Element.copy()
+            db_client_insert_Element.update({
                 'shortcode': p['shortcode']
             })
-            db_client.insert(val=Element)
+            db_client.insert(val=db_client_insert_Element)
 
     # reload button
     reload_btn_set = list()
@@ -58,7 +59,6 @@ def handler_pic_set_search(bot,recipient_id,text):
     Element = AttachmentGenericPayloadElements(title="沒有滿意的圖片？", subtitle=f"搜尋更多圖片:{query}", image_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg",
                                                default_url="https://www.catster.com/wp-content/uploads/2018/04/Angry-cat-sound-and-body-language.jpg", buttons=reload_btn_set)
     pic_sets.append(Element)
-
 
     pic_sets_AttachmentGeneric = AttachmentGeneric(elements=pic_sets)
 
