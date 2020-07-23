@@ -1,3 +1,4 @@
+from linebot import LineBotApi
 from linebot.models import TextSendMessage, SendMessage, ImageSendMessage, VideoSendMessage, ImagemapSendMessage, \
     BaseSize, URIImagemapAction, MessageImagemapAction, ImagemapArea, TemplateSendMessage, ImageCarouselTemplate, \
     ImageCarouselColumn, PostbackTemplateAction, ButtonsTemplate,MessageTemplateAction,URITemplateAction
@@ -125,3 +126,51 @@ def more_blackman_questions_photo() -> TemplateSendMessage:
         ]
     )
 )
+
+
+class ImageCarouselElement(dict):
+    def __init__(self, url, label, user_send_text, postback):
+        super().__init__()
+        self.__setitem__("url", url)
+        self.__setitem__("label", label)
+        self.__setitem__("user_send_text", user_send_text)
+        self.__setitem__("postback", postback)
+
+
+class LineBot:
+    def __init__(self,Channel_Access_Token):
+        self.bot = LineBotApi(Channel_Access_Token)
+
+    def send_text_message(self,recipient_id:str, message: SendMessage):
+        self.bot.push_message(recipient_id, message)
+
+    # Picture message
+    def send_a_picture(self,recipient_id,original_content_url, preview_image_url):
+        message = ImageSendMessage(
+            original_content_url=original_content_url,
+            preview_image_url=preview_image_url
+        )
+        self.send_text_message(recipient_id=recipient_id,message=message)
+
+    def send_carousel_picture(self,recipient_id, default_text, images: [ImageCarouselElement]):
+        columns = list()
+
+        for img in images:
+            tmp_img = ImageCarouselColumn(
+                    image_url=img['url'],
+                    action=PostbackTemplateAction(
+                        label=img['label'],
+                        text=img['user_send_text'],
+                        data=img['postback']
+                    )
+            )
+            columns.append(tmp_img)
+
+
+        message = TemplateSendMessage(
+            alt_text=default_text,
+            template=ImageCarouselTemplate(
+                columns=columns
+            )
+        )
+        self.send_text_message(recipient_id=recipient_id, message=message)
