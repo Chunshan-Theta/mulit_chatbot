@@ -200,8 +200,8 @@ class LineBot:
         }
         headers = self.header.copy()
         headers.update(self.auth_header)
-        re = requests.post(url=self.push_api_url,json=body, headers=headers)
-        print(re,re.json())
+        return requests.post(url=self.push_api_url,json=body, headers=headers)
+
 
     def _push_text_message(self,recipient_id,messages:[str]):
         payload_messages = list()

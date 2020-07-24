@@ -41,12 +41,13 @@ class MongoBasicClient:
 
     def query(self,projection: dict = None, **kwargs):
         if projection is None:
-            for x in self.SelectedList.find(filter= kwargs):
-                print(x)
-        else:
-            for x in self.SelectedList.find(filter= kwargs, projection=projection):
-                print(x)
+            return list(self.SelectedList.find(filter= kwargs))
 
+        else:
+            return list(self.SelectedList.find(filter= kwargs, projection=projection))
+
+    def query_in(self, filter_list):
+        return self.query(shortcode={"$in": filter_list})
     ##
     def change_user(self,account,pws):
         if isinstance(self.ObjClient, MongoClient):
