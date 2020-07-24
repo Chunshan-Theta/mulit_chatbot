@@ -52,6 +52,8 @@ def get_pics(query="台北", count=50) -> [dict]:
         return pic_sets
 
     def by_ig():
+        hot_rate = 0.75
+        discover_rate = 1-hot_rate
         url = "https://www.instagram.com/graphql/query/?query_hash=174a5243287c5f3a7de741089750ab3b&variables={\"tag_name\":\""+query+"\",\"first\":50}"
         r = requests.get(url)
         response = r.json()
@@ -71,10 +73,10 @@ def get_pics(query="台北", count=50) -> [dict]:
             respond_sets.append(pic(**p))
 
         respond_sets.sort(key=lambda elem: elem["likes_count"],reverse=True)
-        return_pics_better = respond_sets[:int(count*0.5)] if int(count*0.5) < len(respond_sets) else respond_sets
-        return_pics_discrover = respond_sets[int(count*0.5)+1:]
+        return_pics_better = respond_sets[:int(count*hot_rate)] if int(count*hot_rate) < len(respond_sets) else respond_sets
+        return_pics_discrover = respond_sets[int(count*discover_rate)+1:]
         random.shuffle(return_pics_discrover)
-        return_pics_discrover = return_pics_discrover[:int(count*0.5)] if int(count*0.5) < len(return_pics_discrover) else return_pics_discrover
+        return_pics_discrover = return_pics_discrover[:int(count*discover_rate)] if int(count*discover_rate) < len(return_pics_discrover) else return_pics_discrover
         return_pics = return_pics_better+return_pics_discrover
         return return_pics
     return by_ig()
