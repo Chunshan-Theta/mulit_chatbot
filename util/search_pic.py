@@ -74,7 +74,7 @@ def get_pics(query="台北", count=50) -> [dict]:
 
         respond_sets.sort(key=lambda elem: elem["likes_count"],reverse=True)
         return_pics_better = respond_sets[:int(count*hot_rate)] if int(count*hot_rate) < len(respond_sets) else respond_sets
-        return_pics_discrover = respond_sets[int(count*discover_rate)+1:]
+        return_pics_discrover = respond_sets[int(count*hot_rate)+1:]
         random.shuffle(return_pics_discrover)
         return_pics_discrover = return_pics_discrover[:int(count*discover_rate)] if int(count*discover_rate) < len(return_pics_discrover) else return_pics_discrover
         return_pics = return_pics_better+return_pics_discrover
