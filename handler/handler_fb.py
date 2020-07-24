@@ -45,7 +45,7 @@ def handler_pic_set_search(bot,recipient_id,text):
             normal_btn_set.append(FbButtomURL(url=p['url'], title="前進網站"))
 
             Element = AttachmentGenericPayloadElements(title=p["title"], subtitle=f"圖片來源:{p['url']}", image_url=p['media'],
-                                                        default_url=p['media'], buttons=normal_btn_set)
+                                                        default_url=p['url'], buttons=normal_btn_set,fallback_url=p['media'])
             pic_sets.append(Element)
             db_client_insert_Element = Element.copy()
             db_client_insert_Element.update({

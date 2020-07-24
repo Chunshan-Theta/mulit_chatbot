@@ -18,9 +18,10 @@ class AttachmentButton(dict):
 
 
 class AttachmentGenericPayloadElements(dict):
-    def __init__(self, title, subtitle, image_url, default_url, buttons:[FbButtom]):
+    def __init__(self, title, subtitle, image_url, default_url, buttons:[FbButtom], fallback_url=None):
         super().__init__()
         assert len(buttons) <= 3, "buttons max limit: 3"
+        fallback_url = fallback_url if fallback_url is not None else default_url
         self.update({
             "title": title,
             "image_url": image_url,
@@ -30,7 +31,7 @@ class AttachmentGenericPayloadElements(dict):
                 "url": default_url,
                 "messenger_extensions": "true",
                 "webview_height_ratio": "tall",
-                "fallback_url": default_url
+                "fallback_url": fallback_url
             },
             "buttons": buttons
         })
