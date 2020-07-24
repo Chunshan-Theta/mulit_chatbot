@@ -77,25 +77,6 @@ class FbHelperBot(Bot):
         'https://graph.facebook.com/v7.0/me/messages?access_token="+self.access_token+"'"
         re = out(cmd)
         return json.loads(re)
-        '''
-        url = f"https://graph.facebook.com/v7.0/me/messages?access_token={self.access_token}"
-        recipient = {"id":recipient_id}
-        message = {
-            "attachment":{
-                "type":"image",
-                "payload":
-                    {
-                        "is_reusable":"true"
-                    }
-            }
-        }
-        with open(image_path,"rb") as f:
-            files = {
-                "filedata": f
-            }
-            print(f"files: {files}")
-            responds = requests.post(url, files=files, data={"recipient":json.dumps(recipient),"message": json.dumps(message)})
-            return responds.json()
-        '''
+
 
 
