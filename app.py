@@ -114,23 +114,23 @@ def webhook():
 
                     #
                     try:
-                        if messaging_text.find("圖") != -1:
+                        if messaging_text.find("我想搜尋相關圖像") != -1:
+                            command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
+                            bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
+                        elif messaging_text.find("我的最愛") != -1:
+                            handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
+                        elif messaging_text.find("圖") != -1:
                             handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
                         elif messaging_text.find("搜尋") != -1:
                             handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
                         elif messaging_text.find("LIKES_PIC") != -1:
                             handler_user_like(bot=bot, recipient_id=sender_id, text=messaging_text)
-                        elif messaging_text.find("我的最愛") != -1:
-                            handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
-                        elif messaging_text.find("我想搜尋相關圖像") != -1:
-                            command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
-                            bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
                         else:
                             bot.send_text_message(sender_id, f"your id: {sender_id}")
                             bot.send_quickreplay_message(sender_id, basic_operation_quick_reply)
 
                     except ValueError as e:
-                        print(f"ValueError: {e},{messaging_text}")
+                        print(f"指令格式錯誤: ValueError: {e},{messaging_text}")
                         bot.send_text_message(sender_id, f"對不起,我不知道你想幹嘛ＱＡＱ")
                     except Exception as e:
                         print(f"Exception: {str(e)}")
