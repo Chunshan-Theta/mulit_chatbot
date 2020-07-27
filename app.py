@@ -109,7 +109,7 @@ def webhook():
 
                     continue_command =  command_tmp_record.find_user(user_id=sender_id)
                     if continue_command is not None:
-                        if continue_command == "我想搜尋":
+                        if continue_command == "我想搜尋相關圖像":
                             messaging_text = "搜尋:"+messaging_text
 
                     #
@@ -123,7 +123,7 @@ def webhook():
                         elif messaging_text.find("我的最愛") != -1:
                             handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
                         elif messaging_text.find("我想搜尋相關圖像") != -1:
-                            command_tmp_record.add_command(user_id=sender_id, command="我想搜尋")
+                            command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
                             bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
                         else:
                             bot.send_text_message(sender_id, f"your id: {sender_id}")
