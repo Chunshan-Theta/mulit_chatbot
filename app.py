@@ -90,7 +90,7 @@ def verify():
 
 @app.route("/callback/messenger", methods=['POST'])
 def webhook():
-    def return_re_pattern(label):
+    def return_re_label_pattern(label):
         return "^"+label+"[:]{1}.+"
     data = request.get_json()
     #print(f"data: {data}")
@@ -118,15 +118,20 @@ def webhook():
 
                     #
                     try:
-                        if re.match(pattern="我想搜尋相關圖像", string=messaging_text,flags=messaging_text) is not None:
+
+                        if re.match(pattern="我想搜尋相關圖像", string=messaging_text,flags=re.MULTILINE) is not None:
                             command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
                             bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
-                        elif re.match(pattern="我的最愛", string=messaging_text, flags=messaging_text) is not None:
+
+                        elif re.match(pattern="我的最愛", string=messaging_text, flags=re.MULTILINE) is not None:
                             handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
-                        elif re.match(pattern=return_re_pattern("圖"), string=messaging_text, flags=messaging_text) is not None:
+
+                        elif re.match(pattern=return_re_label_pattern("圖"), string=messaging_text, flags=re.MULTILINE) is not None:
                             handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
-                        elif re.match(pattern=return_re_pattern("搜尋"), string=messaging_text,flags=messaging_text) is not None:
+
+                        elif re.match(pattern=return_re_label_pattern("搜尋"), string=messaging_text,flags=re.MULTILINE) is not None:
                             handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
+
                         elif messaging_text.find("LIKES_PIC") != -1:
                             handler_user_like(bot=bot, recipient_id=sender_id, text=messaging_text)
                         else:
