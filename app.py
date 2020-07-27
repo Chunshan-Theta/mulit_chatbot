@@ -121,7 +121,7 @@ def webhook():
 
                         if re.match(pattern="我想搜尋相關圖像", string=messaging_text,flags=re.MULTILINE) is not None:
                             command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
-                            bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
+                            bot.send_text_message(sender_id, f"請問想搜尋什麼圖像呢?")
 
                         elif re.match(pattern="我的最愛", string=messaging_text, flags=re.MULTILINE) is not None:
                             handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
@@ -143,6 +143,8 @@ def webhook():
                         bot.send_text_message(sender_id, f"對不起,我不知道你想幹嘛ＱＡＱ")
                     except Exception as e:
                         print(f"Exception: {str(e)}")
+                        bot.send_text_message(sender_id, f"抱歉，不了解你的指令")
+                        bot.send_quickreplay_message(sender_id, basic_operation_quick_reply)
     return "ok", 200
 
 

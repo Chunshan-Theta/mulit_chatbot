@@ -46,8 +46,9 @@ class MongoBasicClient:
         else:
             return list(self.SelectedList.find(filter= kwargs, projection=projection))
 
-    def query_in(self, filter_list):
-        return self.query(shortcode={"$in": filter_list})
+    def query_in(self, **kwargs):
+        #return self.query(shortcode={"$in": filter_list})
+        return self.query(**{key:{"$in": val} for key, val in kwargs.items()})
     ##
     def change_user(self,account,pws):
         if isinstance(self.ObjClient, MongoClient):

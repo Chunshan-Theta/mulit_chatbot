@@ -27,7 +27,7 @@ def handler_user_like_all_picture(bot, recipient_id, text):
         user_like_pics_shortcode_ids = list(user_like_pics_shortcode_info_json.keys())
 
         db_client.select_list("pic")
-        pics = db_client.query_in(filter_list=user_like_pics_shortcode_ids)
+        pics = db_client.query_in(shortcode=user_like_pics_shortcode_ids)
         pics = {pic["shortcode"]:pic for pic in pics}
     pic_AttachmentGeneric_set= list()
     for k, v in user_like_pics_shortcode_info_json.items():
