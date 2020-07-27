@@ -126,9 +126,11 @@ def webhook():
                             command_tmp_record.add_command(user_id=sender_id, command="我想搜尋")
                             bot.send_text_message(sender_id, f"請問你想搜尋什麼圖像呢?")
                         else:
-                            bot.send_text_message(sender_id, f" your sender_id: {sender_id}")
-                            _ = bot.send_quickreplay_message(recipient_id, basic_operation_quick_reply)
+                            bot.send_text_message(sender_id, f"your id: {sender_id}")
+                            bot.send_quickreplay_message(sender_id, basic_operation_quick_reply)
+
                     except ValueError as e:
+                        print(f"ValueError: {e},{messaging_text}")
                         bot.send_text_message(sender_id, f"對不起,我不知道你想幹嘛ＱＡＱ")
                     except Exception as e:
                         print(f"Exception: {str(e)}")
