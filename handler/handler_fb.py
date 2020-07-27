@@ -72,7 +72,8 @@ def handler_pic_set_search(bot,recipient_id,text):
     print(f"respond:bot.send_templete_message: {respond}")
 
 
+basic_operation_quick_reply_element_search_welcome = FbQuickReplyElement(title="我想搜尋相關圖像", payload="我想搜尋相關圖像",image_url="https://cdn1.iconfinder.com/data/icons/free-98-icons/32/search-256.png")
 basic_operation_quick_reply_element_search = FbQuickReplyElement(title="搜尋:耶誕城", payload="搜尋",image_url="https://cdn1.iconfinder.com/data/icons/free-98-icons/32/search-256.png")
 basic_operation_quick_reply_element_mylikes = FbQuickReplyElement(title="我的最愛", payload="我的最愛",image_url="https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/heart-256.png")
 
-basic_operation_quick_reply = FbQuickReply(text="還想做點什麼嗎？:",elements=[basic_operation_quick_reply_element_search,basic_operation_quick_reply_element_mylikes])
+basic_operation_quick_reply = FbQuickReply(text="還想做點什麼嗎？:",elements=[basic_operation_quick_reply_element_search_welcome,basic_operation_quick_reply_element_search,basic_operation_quick_reply_element_mylikes])
