@@ -37,7 +37,7 @@ class MyTestCase(unittest.TestCase):
             .or_filters(MongoFilters().add_filter_equal(colume="label3", val="hi"))
 
         print(json.dumps(fs, ensure_ascii=False))
-        
+
     def test_query_or_MongoFilters2(self):
 
 
@@ -45,6 +45,18 @@ class MyTestCase(unittest.TestCase):
               .add_filter_in(colume="shortcode", val=["B0yUI-njUwK", "B", "C"])
               .or_filters(MongoFilters()
                           .add_filter_equal(colume="label3", val="hi")
+                          )
+              )
+    def test_query_or_MongoFilters3(self):
+
+
+        print(MongoFilters()
+              .add_filter_in(colume="shortcode", val=["B0yUI-njUwK", "B", "C"])
+              .or_filters(MongoFilters()
+                          .add_filter_equal(colume="label3", val="hi")
+                          )
+              .or_filters(MongoFilters()
+                          .add_filter_regex(colume="shortcode",val="^B0u5.*")
                           )
               )
 
@@ -78,6 +90,24 @@ class MyTestCase(unittest.TestCase):
                                                 .or_filters(MongoFilters()
                                                             .add_filter_equal(colume="label3", val="hi")
                                                             )
+                                                )
+        print(result)
+    def test_query_MongoFilters_test(self):
+
+        fs = MongoFilters()
+        fs.add_filter_in(colume="shortcode", val=["B0yUI-njUwK","B","C"])\
+            .or_filters(MongoFilters().add_filter_equal(colume="label3", val="hi"))
+        with MongoBasicClient(host="cluster0.enocw.mongodb.net", db_name="fbbot_like_pic",
+                              db_list_name="user_like") as db_client:
+            result = db_client.query_by_filters(filters=MongoFilters()
+                                                  .add_filter_in(colume="shortcode", val=["B0yUI-njUwK", "B", "C"])
+                                                  .or_filters(MongoFilters()
+                                                              .add_filter_equal(colume="label3", val="hi")
+                                                              )
+                                                  .or_filters(MongoFilters()
+                                                              .add_filter_regex(colume="shortcode",val="^B0u5.*")
+                                                              )
+
                                                 )
         print(result)
 

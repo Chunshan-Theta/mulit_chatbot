@@ -5,14 +5,11 @@ from bson import json_util
 from pymongo import MongoClient
 from pymongo.results import InsertOneResult, InsertManyResult
 import datetime
-'''
-{
-    "aaa": {"$in": val}
-}
-'''
+
+
 class MongoFilters(dict):
     def __init__(self):
-        pass
+        super().__init__()
 
     def add_filter(self,colume:str, operation, val):
         if colume not in self.keys():
@@ -46,7 +43,13 @@ class MongoFilters(dict):
         self.add_filter(colume=colume, operation="$ne", val=val)
         return self
 
-    def or_filters(self,filters=None):
+    def add_filter_regex(self, colume:str, val:str):
+        self.add_filter(colume=colume, operation="$regex", val=val)
+        return self
+
+    def or_filters(self, filters=None):
+        assert filters is None or isinstance(filters, MongoFilters),\
+            "filters type need dict or MongoFilters, or keep empty"
         if filters is None:
             self.__setitem__("$or", [dict(self)])
         else:
