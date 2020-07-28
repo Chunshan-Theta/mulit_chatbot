@@ -1,9 +1,67 @@
 import json
 
+import typing
 from bson import json_util
 from pymongo import MongoClient
 from pymongo.results import InsertOneResult, InsertManyResult
 import datetime
+'''
+{
+    "aaa": {"$in": val}
+}
+'''
+class MongoFilters(dict):
+    def __init__(self):
+        pass
+
+    def add_filter(self,colume:str, operation, val):
+        if colume not in self.keys():
+            self.__setitem__(colume,{})
+        tmp_colume:dict = self.__getitem__(colume)
+        tmp_colume[operation] = val
+
+    def add_filter_in(self,colume:str, val:list):
+        self.add_filter(colume=colume, operation="$in", val=val)
+        return self
+
+    def add_filter_greater(self,colume:str, val:list,equal_contain=False):
+        if equal_contain:
+            self.add_filter(colume=colume, operation="$gte", val=val)
+        else:
+            self.add_filter(colume=colume, operation="$gt", val=val)
+        return self
+
+    def add_filter_lesser(self,colume:str, val:list, equal_contain=False):
+        if equal_contain:
+            self.add_filter(colume=colume, operation="$lte", val=val)
+        else:
+            self.add_filter(colume=colume, operation="$lt", val=val)
+        return self
+
+    def add_filter_equal(self, colume: str, val: str):
+        self.__setitem__(colume,val)
+        return self
+
+    def add_filter_not_equal(self,colume:str, val:list):
+        self.add_filter(colume=colume, operation="$ne", val=val)
+        return self
+
+    def or_filters(self,filters=None):
+        if filters is None:
+            self.__setitem__("$or", [dict(self)])
+        else:
+            if "$or" not in self.keys():
+                self.__setitem__("$or", [dict(self), dict(filters)])
+            else:
+                or_list:list = self.__getitem__("$or")
+                or_list.append(dict(filters))
+
+        for key in list(self.keys()).copy():
+            if key != "$or":
+                self.pop(key, None)
+        return self
+
+
 
 class MongoBasicClient:
     def __init__(self, host, db_name, db_list_name):
@@ -40,15 +98,25 @@ class MongoBasicClient:
         return insert_result
 
     def query(self,projection: dict = None, **kwargs):
+
         if projection is None:
             return list(self.SelectedList.find(filter= kwargs))
 
         else:
             return list(self.SelectedList.find(filter= kwargs, projection=projection))
 
+    def query_by_filters(self, filters: MongoFilters, projection: dict = None):
+
+        if projection is None:
+            return list(self.SelectedList.find(filter= filters))
+
+        else:
+            return list(self.SelectedList.find(filter= filters, projection=projection))
+
     def query_in(self, **kwargs):
         #return self.query(shortcode={"$in": filter_list})
         return self.query(**{key:{"$in": val} for key, val in kwargs.items()})
+
     ##
     def change_user(self,account,pws):
         if isinstance(self.ObjClient, MongoClient):
