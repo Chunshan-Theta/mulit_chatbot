@@ -5,6 +5,7 @@ from bson import json_util
 from pymongo import MongoClient
 from pymongo.results import InsertOneResult, InsertManyResult
 import datetime
+from uuid import uuid4
 
 
 class MongoFilters(dict):
@@ -79,6 +80,7 @@ class MongoBasicClient:
 
     def insert(self, val: dict):
         default = {
+            "uuid": str(uuid4()),
             "created": datetime.datetime.now().strftime(self._date_fmt),
             "updated": datetime.datetime.now().strftime(self._date_fmt)
         }
@@ -88,6 +90,7 @@ class MongoBasicClient:
 
     def insert_multi(self, vals: [dict]):
         default = {
+            "uuid": str(uuid4()),
             "created": datetime.datetime.now().strftime(self._date_fmt),
             "updated": datetime.datetime.now().strftime(self._date_fmt)
         }
@@ -100,13 +103,13 @@ class MongoBasicClient:
         insert_result: InsertManyResult = self.SelectedList.insert_many(documents=new_vals)
         return insert_result
 
-    def query(self,projection: dict = None, **kwargs):
+    def query(self,projection: dict = None,limit: int = 0, **kwargs):
 
         if projection is None:
-            return list(self.SelectedList.find(filter= kwargs))
+            return list(self.SelectedList.find(limit=limit, filter= kwargs))
 
         else:
-            return list(self.SelectedList.find(filter= kwargs, projection=projection))
+            return list(self.SelectedList.find(limit=limit, filter= kwargs, projection=projection))
 
     def query_by_filters(self, filters: MongoFilters, projection: dict = None):
 
@@ -119,6 +122,17 @@ class MongoBasicClient:
     def query_in(self, **kwargs):
         #return self.query(shortcode={"$in": filter_list})
         return self.query(**{key:{"$in": val} for key, val in kwargs.items()})
+
+    def update(self,filters, **kwargs):
+        default = {
+            "updated": datetime.datetime.now().strftime(self._date_fmt)
+        }
+        kwargs.update(default)
+        if "uuid" in kwargs:
+            kwargs.pop("uuid")
+        newvalues = {"$set": kwargs}
+
+        self.SelectedList.update_many(filters, newvalues)
 
     ##
     def change_user(self,account,pws):

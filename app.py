@@ -18,7 +18,7 @@ from handler.handler_fb import basic_operation_quick_reply
 from handler.handler_line import line_reply_handler
 
 from fb_message_bot.fb_helper import FbHelperBot
-from handler.handler_fb_user import handler_user_like,handler_user_like_all_picture
+from handler.handler_fb_user import handler_user_like, handler_user_like_all_picture, handler_user_create_travel
 from line_bot.line_helper import LineBot
 import json
 
@@ -111,10 +111,13 @@ def webhook():
                         messaging_text = messaging_event["postback"]["payload"]
                 if messaging_text is not None:
 
-                    continue_command =  command_tmp_record.find_user(user_id=sender_id)
+                    # multi round of conversion.
+                    continue_command = command_tmp_record.find_user(user_id=sender_id)
                     if continue_command is not None:
                         if continue_command == "我想搜尋相關圖像":
                             messaging_text = "搜尋:"+messaging_text
+                        elif continue_command == "我想新增旅程":
+                            messaging_text = "新增旅程:"+messaging_text
 
                     #
                     try:
@@ -122,7 +125,11 @@ def webhook():
                         if re.match(pattern="我想搜尋相關圖像", string=messaging_text,flags=re.MULTILINE) is not None:
                             command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
                             bot.send_text_message(sender_id, f"請問想搜尋什麼圖像呢?")
-
+                        elif re.match(pattern="我想新增旅程", string=messaging_text, flags=re.MULTILINE) is not None:
+                            command_tmp_record.add_command(user_id=sender_id, command="我想新增旅程")
+                            bot.send_text_message(sender_id, f"標題要設為什麼呢?")
+                        elif re.match(pattern="新增旅程", string=messaging_text, flags=re.MULTILINE) is not None:
+                            handler_user_create_travel(bot=bot, recipient_id=sender_id, text=messaging_text)
                         elif re.match(pattern="我的最愛", string=messaging_text, flags=re.MULTILINE) is not None:
                             handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
 

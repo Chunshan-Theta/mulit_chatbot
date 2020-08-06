@@ -92,6 +92,7 @@ class MyTestCase(unittest.TestCase):
                                                             )
                                                 )
         print(result)
+
     def test_query_MongoFilters_test(self):
 
         fs = MongoFilters()
