@@ -18,7 +18,8 @@ from handler.handler_fb import basic_operation_quick_reply
 from handler.handler_line import line_reply_handler
 
 from fb_message_bot.fb_helper import FbHelperBot
-from handler.handler_fb_user import handler_user_like, handler_user_like_all_picture, handler_user_create_travel
+from handler.handler_fb_user import handler_user_like, handler_user_like_all_picture, handler_user_create_travel, \
+    handler_user_create_travel_unit
 from line_bot.line_helper import LineBot
 import json
 
@@ -90,8 +91,13 @@ def verify():
 
 @app.route("/callback/messenger", methods=['POST'])
 def webhook():
-    def return_re_label_pattern(label):
+    def start_with(label):
         return "^"+label+"[:]{1}.+"
+
+    def match_pattern(pattern):
+        if re.match(pattern=pattern, string=messaging_text, flags=re.MULTILINE) is not None:
+            return True
+        return False
     data = request.get_json()
     #print(f"data: {data}")
     if data['object'] == 'page':
@@ -121,25 +127,25 @@ def webhook():
 
                     #
                     try:
-
-                        if re.match(pattern="我想搜尋相關圖像", string=messaging_text,flags=re.MULTILINE) is not None:
+                        if match_pattern("我想搜尋相關圖像"):
                             command_tmp_record.add_command(user_id=sender_id, command="我想搜尋相關圖像")
                             bot.send_text_message(sender_id, f"請問想搜尋什麼圖像呢?")
-                        elif re.match(pattern="我想新增旅程", string=messaging_text, flags=re.MULTILINE) is not None:
+                        elif match_pattern("我想新增旅程"):
                             command_tmp_record.add_command(user_id=sender_id, command="我想新增旅程")
                             bot.send_text_message(sender_id, f"標題要設為什麼呢?")
-                        elif re.match(pattern="新增旅程", string=messaging_text, flags=re.MULTILINE) is not None:
+                        elif match_pattern("新增旅程"):
                             handler_user_create_travel(bot=bot, recipient_id=sender_id, text=messaging_text)
-                        elif re.match(pattern="我的最愛", string=messaging_text, flags=re.MULTILINE) is not None:
+                        elif match_pattern("新增一個行程"):
+                            handler_user_create_travel_unit(bot=bot, recipient_id=sender_id, text=messaging_text)
+                        elif match_pattern("我的最愛"):
                             handler_user_like_all_picture(bot=bot, recipient_id=sender_id, text=messaging_text)
-
-                        elif re.match(pattern=return_re_label_pattern("圖"), string=messaging_text, flags=re.MULTILINE) is not None:
+                        elif match_pattern(start_with("圖")):
                             handler_fb.handler_pic_search(bot=bot, recipient_id=sender_id, text=messaging_text)
 
-                        elif re.match(pattern=return_re_label_pattern("搜尋"), string=messaging_text,flags=re.MULTILINE) is not None:
+                        elif match_pattern(start_with("搜尋")):
                             handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
 
-                        elif messaging_text.find("LIKES_PIC") != -1:
+                        elif match_pattern("LIKES_PIC") != -1:
                             handler_user_like(bot=bot, recipient_id=sender_id, text=messaging_text)
                         else:
                             bot.send_text_message(sender_id, f"your id: {sender_id}")

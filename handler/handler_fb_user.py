@@ -4,7 +4,7 @@ import json
 from fb_message_bot.fb_attachment import AttachmentGeneric, AttachmentGenericPayloadElements
 from fb_message_bot.fb_button import FbButtomPostBack, FbButtomURL
 from handler.handler_fb import basic_operation_quick_reply
-from util.travel_tool import TravelUnit, new_travel_unit
+from util.travel_tool import TravelUnit, new_travel_unit, add_unit_travel_units
 
 
 def handler_user_like(bot, recipient_id, text):
@@ -52,3 +52,11 @@ def handler_user_create_travel(bot, recipient_id, text):
     tu = TravelUnit(owner=recipient_id, title=query)
     new_travel_unit(tu)
     bot.send_text_message(recipient_id, f"已經創建行程:{query}")
+
+
+def handler_user_create_travel_unit(bot, recipient_id, text):
+    query = text.split(":")
+    uuid = query[1]
+    short_code = query[2]
+    add_unit_travel_units(travel_units_uuid=uuid, shortcode=short_code)
+    bot.send_text_message(recipient_id, "已成功！")
