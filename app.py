@@ -145,7 +145,7 @@ def webhook():
                         elif match_pattern(start_with("搜尋")):
                             handler_fb.handler_pic_set_search(bot=bot, recipient_id=sender_id, text=messaging_text)
 
-                        elif match_pattern("LIKES_PIC") != -1:
+                        elif match_pattern("LIKES_PIC"):
                             handler_user_like(bot=bot, recipient_id=sender_id, text=messaging_text)
                         else:
                             bot.send_text_message(sender_id, f"your id: {sender_id}")
