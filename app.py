@@ -155,9 +155,11 @@ def webhook():
                         print(f"指令格式錯誤: ValueError: {e},{messaging_text}")
                         bot.send_text_message(sender_id, f"對不起,我不知道你想幹嘛ＱＡＱ")
                     except Exception as e:
-                        print(f"Exception: {str(e)}")
                         bot.send_text_message(sender_id, f"抱歉，不了解你的指令")
                         bot.send_quickreplay_message(sender_id, basic_operation_quick_reply)
+
+                        #print(f"Exception: {str(e)}")
+                        raise e
     return "ok", 200
 
 
