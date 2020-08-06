@@ -40,15 +40,15 @@ class AttachmentGenericPayloadElements(dict):
 
 
 class AttachmentGeneric(dict):
-    def __init__(self,elements:[AttachmentGenericPayloadElements]):
-        assert len(elements) <= 10, "AttachmentGeneric elements max limit: 10"
+    def __init__(self,elements:[AttachmentGenericPayloadElements],skip=0):
+        #assert len(elements) <= 10, "AttachmentGeneric elements max limit: 10"
         super().__init__()
         self.update({
                 "attachment": {
                     "type": "template",
                     "payload": {
                         "template_type": "generic",
-                        "elements": elements
+                        "elements": elements[skip:skip+9]
                     }
                 }
             })
